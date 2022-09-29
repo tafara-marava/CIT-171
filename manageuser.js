@@ -1,12 +1,12 @@
 //© 2021 Sean Murdock
 
-let userName = "";
+let phonenumber = "";
 let password = "";
 let verifypassword = "";
 let passwordRegEx=/((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!]).{6,40})/;
 
-function setusername(){
-    userName = $("#username").val();
+function setphonenumber(){
+    userName = $("#phonenumber").val();
 }
 
 function setuserpassword(){
