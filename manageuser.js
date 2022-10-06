@@ -4,25 +4,30 @@ let phonenumber = "";
 let password = "";
 let verifypassword = "";
 let passwordRegEx=/((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!]).{6,40})/;
+let onetimepassowrd = "";
 
 function setphonenumber(){
     userName = $("#phonenumber").val();
 }
 
-function setuserpassword(){
-    password = $("#password").val();
-    var valid=passwordRegEx.exec(password);
-    if (!valid){
-        alert('Must be 6 digits, upper, lower, number, and symbol');
-    }
+const sendText=()=>{
+    $.ajax({
+        type: 'POST',
+        url: 'https://dev.stedi.me/twofactorlogin/'+phonenumber,
+        contentType: 'application/text'
+        dataType: 'text'
+    })
 }
 
-function setverifypassword(){
-    verifypassword = $("#verifypassword").val();
-    if (verifypassword!=password){
-        alert('Passwords must be entered the same twice');
-    }
+function setonetimepassword(){
+    onetimepassowrd = $("#onerimepassword").val();
 }
+    
+//     verifypassword = $("#verifypassword").val();
+//     if (verifypassword!=password){
+//         alert('Passwords must be entered the same twice');
+//     }
+// }
 
 function savetoken(token){
 // whatever passes as token should save into local storage
@@ -47,12 +52,12 @@ function checkexpiredtoken(token){
 }
 
 function userlogin(){
-    setuserpassword();
-    setusername();
+    setonetimepassword();
+    setphonenumber();
     $.ajax({
         type: 'POST',
-        url: 'https://dev.stedi.me/login',
-        data: JSON.stringify({userName, password}),
+        url: 'https://dev.stedi.me/twofactorlogin',
+        data: JSON.stringify({phoneNumber:phoneNumber, oneTimePassword:onetimepassword}),
         success: function(data) {
             window.location.href = "/timer.html#"+data;//add the token to the url
         },
@@ -123,6 +128,6 @@ var enterFunction = (event) =>{
     }
 }
 
-var passwordField = document.getElementById("password");
+var passwordField = document.getElementById("onetimepassowrd");
 
 passwordField.addEventListener("keyup", enterFunction);
